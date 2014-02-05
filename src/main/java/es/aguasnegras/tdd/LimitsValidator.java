@@ -5,5 +5,7 @@ package es.aguasnegras.tdd;
  */
 public interface LimitsValidator {
 
-    public void checkArguments(int firstArgument, int secondArgument);
+    void checkArguments(int firstArgument, int secondArgument);
+
+    void checkResult(int result);
 }

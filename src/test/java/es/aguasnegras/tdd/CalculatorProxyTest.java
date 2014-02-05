@@ -59,4 +59,10 @@ public class CalculatorProxyTest {
         fail("This method is expected to throw IllegalArgumentException as both arguments are smaller " +
                 "than the specified limits above: -10 and 10");
     }
+
+    @Test(expected = IllegalStateException.class)
+    public void resultExceedsLimit() {
+        limitsCalculatorProxy.binaryOperation(CalculatorProxy.CalculatorMethod.ADD, 10, 10);
+        fail("This method is expected to throw IllegalStateException as result is bigger than the specified limit: 10");
+    }
 }

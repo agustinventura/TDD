@@ -34,19 +34,32 @@ public class Validator implements LimitsValidator {
 
     @Override
     public void checkArguments(int firstArgument, int secondArgument) {
-        if (firstArgument < lowerLimitValue) {
-            throw new IllegalArgumentException("First argument " + firstArgument + " is smaller than minimum allowed: "
-                    + lowerLimitValue);
-        } else if (firstArgument > upperLimitValue) {
-            throw new IllegalArgumentException("First argument " + firstArgument + " is bigger than maximum allowed: "
-                    + upperLimitValue);
-        } else if (secondArgument < lowerLimitValue) {
-            throw new IllegalArgumentException("Second argument " + secondArgument +
-                    " is smaller than minimum allowed: "+ lowerLimitValue);
-        } else if (secondArgument > upperLimitValue) {
-            throw new IllegalArgumentException("Second argument " + secondArgument +
-                    " is bigger than maximum allowed: "+ upperLimitValue);
+        if (!checkValueWithinLimits(firstArgument)) {
+            throw new IllegalArgumentException("First argument " + firstArgument + " is not within limits "
+                    + lowerLimitValue + ", " + upperLimitValue);
         }
+        if (!checkValueWithinLimits(secondArgument)) {
+            throw new IllegalArgumentException("Second argument " + secondArgument + " is not within limits "
+                    + lowerLimitValue + ", " + upperLimitValue);
+        }
+    }
+
+    @Override
+    public void checkResult(int result) {
+        if (!checkValueWithinLimits(result)) {
+            throw new IllegalStateException("Result " + result + " is not within limits " + lowerLimitValue + ", "
+                    + upperLimitValue);
+        }
+    }
+
+    private boolean checkValueWithinLimits(int argument) {
+        boolean withinLimits = true;
+        if (argument < lowerLimitValue) {
+            withinLimits = false;
+        } else if (argument > upperLimitValue) {
+            withinLimits = false;
+        }
+        return withinLimits;
     }
 
 }

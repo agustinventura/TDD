@@ -31,7 +31,7 @@ public class CalculatorProxy {
             default:
                 break;
         }
-
+        validator.checkResult(result);
         return result;
     }
 }
