@@ -14,4 +14,8 @@ public class MathParser {
         tokens.add(new MathToken("2"));
         return tokens;
     }
+
+    public boolean isValid(String expression) {
+        return expression.matches("\\d+\\s*[\\+|\\-|\\*|\\/]\\s*\\d+");
+    }
 }
