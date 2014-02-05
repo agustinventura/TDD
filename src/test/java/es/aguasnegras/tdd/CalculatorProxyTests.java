@@ -9,7 +9,7 @@ import static org.junit.Assert.fail;
 /**
  * Created by case on 4/02/14.
  */
-public class CalculatorProxyTest {
+public class CalculatorProxyTests {
 
     private Calculator calculator;
     private CalculatorProxy calculatorProxy;
