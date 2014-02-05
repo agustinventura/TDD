@@ -16,8 +16,8 @@ public class ParserTests {
         MathParser mathParser = new MathParser();
         List<MathToken> tokens = mathParser.getTokens("2 + 2");
         assertEquals(3, tokens.size());
-        assertEquals("2", tokens.get(0));
-        assertEquals("+", tokens.get(1));
-        assertEquals("2", tokens.get(2));
+        assertEquals("2", tokens.get(0).getValue());
+        assertEquals("+", tokens.get(1).getValue());
+        assertEquals("2", tokens.get(2).getValue());
     }
 }

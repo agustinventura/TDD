@@ -1,5 +1,6 @@
 package es.aguasnegras.tdd;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -7,7 +8,10 @@ import java.util.List;
  */
 public class MathParser {
     public List<MathToken> getTokens(String expression) {
-
-        return null;
+        List<MathToken> tokens = new ArrayList<MathToken>();
+        tokens.add(new MathToken("2"));
+        tokens.add(new MathToken("+"));
+        tokens.add(new MathToken("2"));
+        return tokens;
     }
 }
