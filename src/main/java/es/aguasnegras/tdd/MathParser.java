@@ -1,6 +1,5 @@
 package es.aguasnegras.tdd;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -8,4 +7,23 @@ import java.util.List;
  */
 public class MathParser {
 
+    private CalculatorProxy calculatorProxy;
+    private Lexer mathLexer;
+
+    public MathParser(Lexer mathLexer, CalculatorProxy calculatorProxy) {
+        this.mathLexer = mathLexer;
+        this.calculatorProxy = calculatorProxy;
+    }
+
+    public int processExpression(String expression) {
+        List<MathToken> tokens = mathLexer.getTokens(expression);
+        int total = 0;
+        for (MathToken token : tokens) {
+            if (!token.isOperator()) {
+                total = calculatorProxy.binaryOperation(CalculatorProxy.CalculatorMethod.ADD,
+                        total, Integer.parseInt(token.getValue()));
+            }
+        }
+        return total;
+    }
 }

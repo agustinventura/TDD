@@ -5,6 +5,6 @@ package es.aguasnegras.tdd;
  */
 public class ExpressionValidator {
     public boolean isValid(String expression) {
-        return expression.matches("^-?\\d+(\\s*[\\+|\\-|\\*|\\/]\\s*-?\\d+)+$");
+        return expression.matches("^-?\\d+(\\s+[\\+|\\-|\\*|\\/]\\s+-?\\d+)+$");
     }
 }

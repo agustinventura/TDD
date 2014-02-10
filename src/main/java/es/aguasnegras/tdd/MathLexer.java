@@ -1,13 +1,12 @@
 package es.aguasnegras.tdd;
 
-import java.beans.Expression;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by case on 8/02/14.
  */
-public class MathLexer {
+public class MathLexer implements Lexer {
 
     private ExpressionValidator expressionValidator;
 
@@ -15,8 +14,9 @@ public class MathLexer {
         this.expressionValidator = expressionValidator;
     }
 
+    @Override
     public List<MathToken> getTokens(String expression) {
-        List<MathToken> tokens = new ArrayList<>();
+        List<MathToken> tokens;
         if (expressionValidator.isValid(expression)) {
             String[] items = splitExpression(expression);
             tokens = getTokensFromStrings(items);
@@ -28,7 +28,7 @@ public class MathLexer {
 
     private List<MathToken> getTokensFromStrings(String[] items) {
         List<MathToken> tokens = new ArrayList<>();
-        for (String item: items) {
+        for (String item : items) {
             tokens.add(new MathToken(item));
         }
         return tokens;
