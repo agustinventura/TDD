@@ -57,4 +57,16 @@ public class ParserTests {
     public void processTernaryExpression() {
         assertEquals(6, mathParser.processExpression("3 + 2 + 1"));
     }
+
+    @Test
+    public void processExpressionWithPrecedence() {
+        assertEquals(9, mathParser.processExpression("3 + 3 * 2"));
+    }
+
+    @Test
+    public void getMaxPrecedence() {
+        List<MathToken> tokens = mathLexer.getTokens("3 + 3 * 2");
+        MathOperator operator = mathParser.getMaxPrecedence(tokens);
+        assertEquals("*", operator.getValue());
+    }
 }

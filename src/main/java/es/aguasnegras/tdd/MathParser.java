@@ -26,4 +26,19 @@ public class MathParser {
         }
         return total;
     }
+
+    public MathOperator getMaxPrecedence(List<MathToken> tokens) {
+        int precedence = 0;
+        MathOperator maxPrecedenceOperator = null;
+        for (MathToken token : tokens) {
+            if (token.isOperator()) {
+                MathOperator operator = OperatorFactory.create(token);
+                if (operator.getPrecedence() > precedence) {
+                    precedence = operator.getPrecedence();
+                    maxPrecedenceOperator = operator;
+                }
+            }
+        }
+        return maxPrecedenceOperator;
+    }
 }
