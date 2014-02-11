@@ -46,6 +46,16 @@ public class CalculatorProxyTests {
         assertEquals(-2, result);
     }
 
+    @Test
+    public void multiply() {
+        assertEquals(10, calculatorProxy.binaryOperation(CalculatorProxy.CalculatorMethod.MULTIPLY, 2, 5));
+    }
+
+    @Test
+    public void divide() {
+        assertEquals(33, calculatorProxy.binaryOperation(CalculatorProxy.CalculatorMethod.DIVIDE, 99, 3));
+    }
+
     @Test(expected = IllegalArgumentException.class)
     public void argumentsExceedPositiveLimit() {
         limitsCalculatorProxy.binaryOperation(SimpleCalculatorProxy.CalculatorMethod.ADD, 30, 50);

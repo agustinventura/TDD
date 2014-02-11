@@ -7,6 +7,6 @@ public interface CalculatorProxy {
     int binaryOperation(CalculatorMethod method, int firstArg, int secondArg);
 
     public enum CalculatorMethod {
-        ADD, SUBSTRACT;
+        ADD, SUBSTRACT, MULTIPLY, DIVIDE
     }
 }

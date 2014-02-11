@@ -69,4 +69,9 @@ public class ParserTests {
         MathOperator operator = mathParser.getMaxPrecedence(tokens);
         assertEquals("*", operator.getValue());
     }
+
+    @Test
+    public void processAllOperatorsExpression() {
+        assertEquals(9, mathParser.processExpression("5 + 4 * 2 / 2"));
+    }
 }

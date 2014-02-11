@@ -11,13 +11,13 @@ public class OperatorFactoryTests {
 
     @Test
     public void testMultiplyOperator() {
-        MathOperator operator = OperatorFactory.create(new MathToken("*"));
+        MathOperator operator = OperatorFactory.create(0, new MathToken("*"));
         assertEquals(2, operator.getPrecedence());
     }
 
     @Test
     public void testAddOperator() {
-        MathOperator operator = OperatorFactory.create(new MathToken("+"));
-        assertEquals(0, operator.getPrecedence());
+        MathOperator operator = OperatorFactory.create(0, new MathToken("+"));
+        assertEquals(1, operator.getPrecedence());
     }
 }

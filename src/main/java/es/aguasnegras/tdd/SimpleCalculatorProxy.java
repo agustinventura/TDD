@@ -24,6 +24,11 @@ public class SimpleCalculatorProxy implements CalculatorProxy {
             case SUBSTRACT:
                 result = calculator.substract(firstArg, secondArg);
                 break;
+            case MULTIPLY:
+                result = calculator.multiply(firstArg, secondArg);
+                break;
+            case DIVIDE:
+                result = calculator.divide(firstArg, secondArg);
             default:
                 break;
         }
