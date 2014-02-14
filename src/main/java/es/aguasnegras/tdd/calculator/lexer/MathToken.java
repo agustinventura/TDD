@@ -7,8 +7,8 @@ public class MathToken {
     private final String value;
     private boolean operator;
 
-    public MathToken(String token) {
-        this.value = token;
+    public MathToken(String value) {
+        this.value = value;
         checkOperator();
     }
 
@@ -32,5 +32,33 @@ public class MathToken {
 
     public boolean isOperator() {
         return operator;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof MathToken)) return false;
+
+        MathToken mathToken = (MathToken) o;
+
+        if (operator != mathToken.operator) return false;
+        if (!value.equals(mathToken.value)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = value.hashCode();
+        result = 31 * result + (operator ? 1 : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "MathToken{" +
+                "value='" + value + '\'' +
+                ", operator=" + operator +
+                '}';
     }
 }

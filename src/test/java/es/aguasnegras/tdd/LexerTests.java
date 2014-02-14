@@ -9,8 +9,8 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static junit.framework.Assert.fail;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 /**
  * Created by aventura on 10/02/14.
@@ -61,5 +61,19 @@ public class LexerTests {
         assertEquals("5", tokens.get(0).getValue());
         assertEquals("-", tokens.get(1).getValue());
         assertEquals("88", tokens.get(2).getValue());
+    }
+
+    @Test
+    public void getExpressionWithOneParenthesis() {
+        List<String> expressions = mathLexer.getExpressions("(2 + 2)");
+        assertEquals(1, expressions.size());
+        assertEquals("2 + 2", expressions.get(0));
+    }
+
+    @Test
+    public void getExpressionWithNestedParenthesis() {
+        List<String> expressions = mathLexer.getExpressions("((2) + 2)");
+        assertEquals(1, expressions.size());
+        assertEquals("2 + 2", expressions.get(0));
     }
 }

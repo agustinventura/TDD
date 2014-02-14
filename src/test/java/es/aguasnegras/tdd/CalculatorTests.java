@@ -1,7 +1,6 @@
 package es.aguasnegras.tdd;
 
 import es.aguasnegras.tdd.calculator.Calculator;
-import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -44,6 +43,6 @@ public class CalculatorTests {
 
     @Test
     public void divide() {
-        Assert.assertEquals(3, calculator.divide(15, 5));
+        assertEquals(3, calculator.divide(15, 5));
     }
 }

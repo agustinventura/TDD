@@ -2,13 +2,14 @@ package es.aguasnegras.tdd.calculator.lexer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 /**
  * Created by case on 8/02/14.
  */
 public class MathLexer implements Lexer {
 
-    private ExpressionValidator expressionValidator;
+    private final ExpressionValidator expressionValidator;
 
     public MathLexer(ExpressionValidator expressionValidator) {
         this.expressionValidator = expressionValidator;
@@ -24,6 +25,29 @@ public class MathLexer implements Lexer {
             throw new IllegalArgumentException("Expression " + expression + " is not valid");
         }
         return tokens;
+    }
+
+    @Override
+    public List<String> getExpressions(String expression) {
+        List<StringBuilder> expressionsBuilder = new ArrayList<>();
+        Stack<Character> parenthesis = new Stack<>();
+        for (char ch : expression.toCharArray()) {
+            if (ch == '(') {
+                parenthesis.push(ch);
+                expressionsBuilder.add(new StringBuilder(""));
+            } else if (ch == ')') {
+                parenthesis.pop();
+            } else {
+                expressionsBuilder.get(expressionsBuilder.size() - 1).append(ch);
+            }
+        }
+        List<String> expressions = new ArrayList<>();
+        for (StringBuilder expressionBuilder : expressionsBuilder) {
+            if (expressionBuilder.length() > 0) {
+                expressions.add(expressionBuilder.toString());
+            }
+        }
+        return expressions;
     }
 
     private List<MathToken> getTokensFromStrings(String[] items) {

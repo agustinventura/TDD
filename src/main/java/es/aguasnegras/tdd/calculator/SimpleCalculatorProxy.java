@@ -1,14 +1,15 @@
 package es.aguasnegras.tdd.calculator;
 
 import es.aguasnegras.tdd.calculator.validator.CalculatorValidator;
+import es.aguasnegras.tdd.calculator.validator.LimitsValidator;
 
 /**
  * Created by case on 4/02/14.
  */
 public class SimpleCalculatorProxy implements CalculatorProxy {
 
-    private Calculator calculator;
-    private CalculatorValidator calculatorValidator;
+    private final Calculator calculator;
+    private final LimitsValidator calculatorValidator;
 
     public SimpleCalculatorProxy(CalculatorValidator calculatorValidator, Calculator calculator) {
         this.calculatorValidator = calculatorValidator;

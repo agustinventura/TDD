@@ -7,7 +7,7 @@ import es.aguasnegras.tdd.calculator.lexer.MathToken;
  */
 public class OperatorFactory {
     public static MathOperator create(int index, MathToken token) {
-        MathOperator result = null;
+        MathOperator result;
         switch (token.getValue()) {
             case "*":
                 result = new MultiplyOperator(index);

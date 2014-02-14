@@ -21,12 +21,11 @@ import static org.mockito.Mockito.*;
 public class ParserTests {
 
     private MathParser mathParser;
-    private ExpressionValidator expressionValidator;
     private Lexer mathLexer;
 
     @Before
     public void setUp() {
-        expressionValidator = new ExpressionValidator();
+        ExpressionValidator expressionValidator = new ExpressionValidator();
         mathLexer = new MathLexer(expressionValidator);
         mathParser = new MathParser(mathLexer, new SimpleCalculatorProxy(new CalculatorValidator(Integer.MIN_VALUE, Integer.MAX_VALUE),
                 new Calculator()));

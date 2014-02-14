@@ -11,8 +11,8 @@ import java.util.List;
  */
 public class MathParser {
 
-    private CalculatorProxy calculatorProxy;
-    private Lexer mathLexer;
+    private final CalculatorProxy calculatorProxy;
+    private final Lexer mathLexer;
 
     public MathParser(Lexer mathLexer, CalculatorProxy calculatorProxy) {
         this.mathLexer = mathLexer;

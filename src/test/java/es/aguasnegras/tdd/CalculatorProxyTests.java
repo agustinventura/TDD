@@ -15,13 +15,12 @@ import static org.junit.Assert.fail;
  */
 public class CalculatorProxyTests {
 
-    private Calculator calculator;
     private CalculatorProxy calculatorProxy;
     private CalculatorProxy limitsCalculatorProxy;
 
     @Before
     public void setUp() {
-        calculator = new Calculator();
+        Calculator calculator = new Calculator();
         calculatorProxy = new SimpleCalculatorProxy(new CalculatorValidator(Integer.MIN_VALUE, Integer.MAX_VALUE), calculator);
         limitsCalculatorProxy = new SimpleCalculatorProxy(new CalculatorValidator(-10, 10), calculator);
     }
