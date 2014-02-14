@@ -1,4 +1,6 @@
-package es.aguasnegras.tdd;
+package es.aguasnegras.tdd.calculator;
+
+import es.aguasnegras.tdd.calculator.validator.CalculatorValidator;
 
 /**
  * Created by case on 4/02/14.
@@ -6,16 +8,16 @@ package es.aguasnegras.tdd;
 public class SimpleCalculatorProxy implements CalculatorProxy {
 
     private Calculator calculator;
-    private Validator validator;
+    private CalculatorValidator calculatorValidator;
 
-    public SimpleCalculatorProxy(Validator validator, Calculator calculator) {
-        this.validator = validator;
+    public SimpleCalculatorProxy(CalculatorValidator calculatorValidator, Calculator calculator) {
+        this.calculatorValidator = calculatorValidator;
         this.calculator = calculator;
     }
 
     @Override
     public int binaryOperation(CalculatorMethod method, int firstArg, int secondArg) {
-        validator.checkArguments(firstArg, secondArg);
+        calculatorValidator.checkArguments(firstArg, secondArg);
         int result = 0;
         switch (method) {
             case ADD:
@@ -32,7 +34,7 @@ public class SimpleCalculatorProxy implements CalculatorProxy {
             default:
                 break;
         }
-        validator.checkResult(result);
+        calculatorValidator.checkResult(result);
         return result;
     }
 }

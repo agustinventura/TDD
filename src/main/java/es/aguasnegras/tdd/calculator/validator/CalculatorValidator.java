@@ -1,35 +1,15 @@
-package es.aguasnegras.tdd;
+package es.aguasnegras.tdd.calculator.validator;
 
 /**
  * Created by case on 4/02/14.
  */
-public class Validator implements LimitsValidator {
-    private int lowerLimitValue;
-    private int upperLimitValue;
+public class CalculatorValidator implements LimitsValidator {
+    private final int lowerLimitValue;
+    private final int upperLimitValue;
 
-    public Validator(int minValue, int maxValue) {
-        setLimits(minValue, maxValue);
-    }
-
-    private void setLimits(int minValue, int maxValue) {
+    public CalculatorValidator(int minValue, int maxValue) {
         lowerLimitValue = minValue;
         upperLimitValue = maxValue;
-    }
-
-    public int getUpperLimitValue() {
-        return upperLimitValue;
-    }
-
-    public void setUpperLimitValue(int upperLimitValue) {
-        this.upperLimitValue = upperLimitValue;
-    }
-
-    public int getLowerLimitValue() {
-        return lowerLimitValue;
-    }
-
-    public void setLowerLimitValue(int lowerLimitValue) {
-        this.lowerLimitValue = lowerLimitValue;
     }
 
     @Override

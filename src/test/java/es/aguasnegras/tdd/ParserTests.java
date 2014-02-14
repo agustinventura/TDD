@@ -1,5 +1,11 @@
 package es.aguasnegras.tdd;
 
+import es.aguasnegras.tdd.calculator.Calculator;
+import es.aguasnegras.tdd.calculator.CalculatorProxy;
+import es.aguasnegras.tdd.calculator.SimpleCalculatorProxy;
+import es.aguasnegras.tdd.calculator.lexer.*;
+import es.aguasnegras.tdd.calculator.operators.MathOperator;
+import es.aguasnegras.tdd.calculator.validator.CalculatorValidator;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,7 +28,7 @@ public class ParserTests {
     public void setUp() {
         expressionValidator = new ExpressionValidator();
         mathLexer = new MathLexer(expressionValidator);
-        mathParser = new MathParser(mathLexer, new SimpleCalculatorProxy(new Validator(Integer.MIN_VALUE, Integer.MAX_VALUE),
+        mathParser = new MathParser(mathLexer, new SimpleCalculatorProxy(new CalculatorValidator(Integer.MIN_VALUE, Integer.MAX_VALUE),
                 new Calculator()));
     }
 
@@ -47,7 +53,7 @@ public class ParserTests {
         tokens.add(new MathToken("2"));
         Lexer lexerMock = mock(MathLexer.class);
         when(lexerMock.getTokens("2 + 2")).thenReturn(tokens);
-        MathParser parser = new MathParser(lexerMock, new SimpleCalculatorProxy(new Validator(Integer.MIN_VALUE,
+        MathParser parser = new MathParser(lexerMock, new SimpleCalculatorProxy(new CalculatorValidator(Integer.MIN_VALUE,
                 Integer.MAX_VALUE), new Calculator()));
         parser.processExpression("2 + 2");
         verify(lexerMock).getTokens("2 + 2");
@@ -67,7 +73,7 @@ public class ParserTests {
     public void getMaxPrecedence() {
         List<MathToken> tokens = mathLexer.getTokens("3 + 3 * 2");
         MathOperator operator = mathParser.getMaxPrecedence(tokens);
-        assertEquals("*", operator.getValue());
+        assertEquals("*", operator.getToken());
     }
 
     @Test

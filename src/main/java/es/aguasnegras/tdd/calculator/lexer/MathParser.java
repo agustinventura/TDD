@@ -1,4 +1,8 @@
-package es.aguasnegras.tdd;
+package es.aguasnegras.tdd.calculator.lexer;
+
+import es.aguasnegras.tdd.calculator.CalculatorProxy;
+import es.aguasnegras.tdd.calculator.operators.MathOperator;
+import es.aguasnegras.tdd.calculator.operators.OperatorFactory;
 
 import java.util.List;
 

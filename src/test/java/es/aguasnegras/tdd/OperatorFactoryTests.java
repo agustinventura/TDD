@@ -1,5 +1,8 @@
 package es.aguasnegras.tdd;
 
+import es.aguasnegras.tdd.calculator.lexer.MathToken;
+import es.aguasnegras.tdd.calculator.operators.MathOperator;
+import es.aguasnegras.tdd.calculator.operators.OperatorFactory;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

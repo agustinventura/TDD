@@ -1,5 +1,6 @@
 package es.aguasnegras.tdd;
 
+import es.aguasnegras.tdd.calculator.lexer.MathToken;
 import org.junit.Test;
 
 import static junit.framework.Assert.assertFalse;

@@ -1,5 +1,9 @@
 package es.aguasnegras.tdd;
 
+import es.aguasnegras.tdd.calculator.lexer.ExpressionValidator;
+import es.aguasnegras.tdd.calculator.lexer.Lexer;
+import es.aguasnegras.tdd.calculator.lexer.MathLexer;
+import es.aguasnegras.tdd.calculator.lexer.MathToken;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -1,4 +1,4 @@
-package es.aguasnegras.tdd;
+package es.aguasnegras.tdd.calculator.lexer;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package es.aguasnegras.tdd;
+package es.aguasnegras.tdd.calculator.lexer;
 
 /**
  * Created by aventura on 5/02/14.

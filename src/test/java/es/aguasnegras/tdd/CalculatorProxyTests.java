@@ -1,5 +1,9 @@
 package es.aguasnegras.tdd;
 
+import es.aguasnegras.tdd.calculator.Calculator;
+import es.aguasnegras.tdd.calculator.CalculatorProxy;
+import es.aguasnegras.tdd.calculator.SimpleCalculatorProxy;
+import es.aguasnegras.tdd.calculator.validator.CalculatorValidator;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,8 +22,8 @@ public class CalculatorProxyTests {
     @Before
     public void setUp() {
         calculator = new Calculator();
-        calculatorProxy = new SimpleCalculatorProxy(new Validator(Integer.MIN_VALUE, Integer.MAX_VALUE), calculator);
-        limitsCalculatorProxy = new SimpleCalculatorProxy(new Validator(-10, 10), calculator);
+        calculatorProxy = new SimpleCalculatorProxy(new CalculatorValidator(Integer.MIN_VALUE, Integer.MAX_VALUE), calculator);
+        limitsCalculatorProxy = new SimpleCalculatorProxy(new CalculatorValidator(-10, 10), calculator);
     }
 
     @Test

@@ -1,4 +1,6 @@
-package es.aguasnegras.tdd;
+package es.aguasnegras.tdd.calculator.operators;
+
+import es.aguasnegras.tdd.calculator.CalculatorProxy;
 
 /**
  * Created by aventura on 10/02/14.
@@ -9,7 +11,7 @@ public abstract class MathOperator {
     private final int index;
     private final String token;
 
-    public MathOperator(int precedence, int index, String token) {
+    public MathOperator(int index, int precedence, String token) {
         this.precedence = precedence;
         this.index = index;
         this.token = token;

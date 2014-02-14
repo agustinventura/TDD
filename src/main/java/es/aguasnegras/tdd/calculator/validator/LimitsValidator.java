@@ -1,4 +1,4 @@
-package es.aguasnegras.tdd;
+package es.aguasnegras.tdd.calculator.validator;
 
 /**
  * Created by case on 4/02/14.

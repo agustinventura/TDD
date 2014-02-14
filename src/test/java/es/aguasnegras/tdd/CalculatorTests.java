@@ -1,5 +1,6 @@
 package es.aguasnegras.tdd;
 
+import es.aguasnegras.tdd.calculator.Calculator;
 import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,19 +21,19 @@ public class CalculatorTests {
 
     @Test
     public void addWithDifferentArguments() {
-        int result = calculator.add(2,5);
+        int result = calculator.add(2, 5);
         assertEquals(7, result);
     }
 
     @Test
     public void substract() {
-        int result = calculator.substract(5,3);
+        int result = calculator.substract(5, 3);
         assertEquals(result, 2);
     }
 
     @Test
     public void substractNegative() {
-        int result = calculator.substract(3,5);
+        int result = calculator.substract(3, 5);
         assertEquals(result, -2);
     }
 
