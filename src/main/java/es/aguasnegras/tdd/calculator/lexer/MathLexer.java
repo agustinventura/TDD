@@ -10,9 +10,11 @@ import java.util.Stack;
 public class MathLexer implements Lexer {
 
     private final ExpressionValidator expressionValidator;
+    private final ExpressionFixer expressionFixer;
 
-    public MathLexer(ExpressionValidator expressionValidator) {
+    public MathLexer(ExpressionValidator expressionValidator, ExpressionFixer expressionFixer) {
         this.expressionValidator = expressionValidator;
+        this.expressionFixer = expressionFixer;
     }
 
     @Override
@@ -30,23 +32,21 @@ public class MathLexer implements Lexer {
     @Override
     public List<String> getExpressions(String expression) {
         List<StringBuilder> expressionsBuilder = new ArrayList<>();
-        Stack<Character> parenthesis = new Stack<>();
+        Stack<Integer> parenthesis = new Stack<>();
+        int index = 0;
+        expressionsBuilder.add(new StringBuilder(""));
         for (char ch : expression.toCharArray()) {
             if (ch == '(') {
-                parenthesis.push(ch);
+                parenthesis.push(index);
+                index++;
                 expressionsBuilder.add(new StringBuilder(""));
             } else if (ch == ')') {
-                parenthesis.pop();
+                index = parenthesis.pop();
             } else {
-                expressionsBuilder.get(expressionsBuilder.size() - 1).append(ch);
+                expressionsBuilder.get(index).append(ch);
             }
         }
-        List<String> expressions = new ArrayList<>();
-        for (StringBuilder expressionBuilder : expressionsBuilder) {
-            if (expressionBuilder.length() > 0) {
-                expressions.add(expressionBuilder.toString());
-            }
-        }
+        List<String> expressions = expressionFixer.fixExpressions(expressionsBuilder);
         return expressions;
     }
 

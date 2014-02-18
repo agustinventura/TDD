@@ -1,16 +1,13 @@
 package es.aguasnegras.tdd;
 
-import es.aguasnegras.tdd.calculator.lexer.ExpressionValidator;
-import es.aguasnegras.tdd.calculator.lexer.Lexer;
-import es.aguasnegras.tdd.calculator.lexer.MathLexer;
-import es.aguasnegras.tdd.calculator.lexer.MathToken;
+import es.aguasnegras.tdd.calculator.lexer.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 /**
  * Created by aventura on 10/02/14.
@@ -21,7 +18,7 @@ public class LexerTests {
 
     @Before
     public void setUp() {
-        mathLexer = new MathLexer(new ExpressionValidator());
+        mathLexer = new MathLexer(new ExpressionValidator(), new ExpressionFixer());
     }
 
     @Test
@@ -73,7 +70,27 @@ public class LexerTests {
     @Test
     public void getExpressionWithNestedParenthesis() {
         List<String> expressions = mathLexer.getExpressions("((2) + 2)");
-        assertEquals(1, expressions.size());
-        assertEquals("2 + 2", expressions.get(0));
+        assertEquals(3, expressions.size());
+        checkExpressionsContainsSubExpressions(expressions, "2", "+");
+    }
+
+    @Test
+    public void getNestedExpressions() {
+        List<String> expressions = mathLexer.getExpressions("(2 + 1) + 2");
+        assertEquals(3, expressions.size());
+        checkExpressionsContainsSubExpressions(expressions, "2 + 1", "+", "2");
+    }
+
+    @Test
+    public void getExpressionsWithParenthesisAtTheEnd() {
+        List<String> expressions = mathLexer.getExpressions("2 + (3 * 1)");
+        assertEquals(3, expressions.size());
+        checkExpressionsContainsSubExpressions(expressions, "2", "+", "3 * 1");
+    }
+
+    private void checkExpressionsContainsSubExpressions(List<String> expressions, String... subexpressions) {
+        for (String expression : expressions) {
+            assertTrue(Arrays.asList(subexpressions).contains(expression));
+        }
     }
 }
