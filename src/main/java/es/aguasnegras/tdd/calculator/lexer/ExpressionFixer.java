@@ -8,10 +8,16 @@ import java.util.List;
  */
 public class ExpressionFixer {
 
+    private final ExpressionValidator expressionValidator;
+
+    public ExpressionFixer(ExpressionValidator expressionValidator) {
+        this.expressionValidator = expressionValidator;
+    }
+
     public List<String> fixExpressions(List<StringBuilder> expressionsBuilder) {
         List<String> expressions = new ArrayList<>();
         for (StringBuilder expression : expressionsBuilder) {
-            if (expression.toString().matches("^(\\s*)[\\+|\\-|\\*|/](\\s+)(\\d+)")) {
+            if (expressionValidator.isNumberAndOperator(expression.toString())) {
                 String[] components = expression.toString().trim().split("\\s+");
                 for (String component : components) {
                     expressions.add(component);

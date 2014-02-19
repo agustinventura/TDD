@@ -18,7 +18,8 @@ public class LexerTests {
 
     @Before
     public void setUp() {
-        mathLexer = new MathLexer(new ExpressionValidator(), new ExpressionFixer());
+        ExpressionValidator expressionValidator = new ExpressionValidator();
+        mathLexer = new MathLexer(expressionValidator, new ExpressionFixer(expressionValidator));
     }
 
     @Test
