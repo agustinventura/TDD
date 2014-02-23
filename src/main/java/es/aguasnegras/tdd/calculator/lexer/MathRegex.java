@@ -3,7 +3,7 @@ package es.aguasnegras.tdd.calculator.lexer;
 /**
  * Created by case on 8/02/14.
  */
-public class ExpressionValidator {
+public class MathRegex {
 
     private String regExStartsWithOperator = "^(\\s*)[\\+|\\-|\\*|/](\\s+)(\\d+)";
     private String regExEndsWithOperator = "(\\d+)(\\s+)[\\+|\\-|\\*|/](\\s*)$";

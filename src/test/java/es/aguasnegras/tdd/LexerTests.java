@@ -18,8 +18,8 @@ public class LexerTests {
 
     @Before
     public void setUp() {
-        ExpressionValidator expressionValidator = new ExpressionValidator();
-        mathLexer = new MathLexer(expressionValidator, new ExpressionFixer(expressionValidator));
+        MathRegex mathRegex = new MathRegex();
+        mathLexer = new MathLexer(mathRegex, new ExpressionFixer(mathRegex));
     }
 
     @Test
@@ -93,5 +93,17 @@ public class LexerTests {
         for (String expression : expressions) {
             assertTrue(Arrays.asList(subexpressions).contains(expression));
         }
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void throwExceptionOnUnclosedParenthesis() {
+        List<String> expressions = mathLexer.getExpressions("(2 + 3 * 1");
+    }
+
+    @Test
+    public void getExpressionWithTwoSubExpressions() {
+        List<String> expressions = mathLexer.getExpressions("(2 + 2) * (3 + 1)");
+        assertEquals(3, expressions.size());
+        checkExpressionsContainsSubExpressions(expressions, "2 + 2", "*", "3 + 1");
     }
 }

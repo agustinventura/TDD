@@ -8,26 +8,38 @@ import java.util.List;
  */
 public class ExpressionFixer {
 
-    private final ExpressionValidator expressionValidator;
+    private final MathRegex mathRegex;
 
-    public ExpressionFixer(ExpressionValidator expressionValidator) {
-        this.expressionValidator = expressionValidator;
+    public ExpressionFixer(MathRegex mathRegex) {
+        this.mathRegex = mathRegex;
     }
 
     public List<String> fixExpressions(List<StringBuilder> expressionsBuilder) {
         List<String> expressions = new ArrayList<>();
         for (StringBuilder expression : expressionsBuilder) {
-            if (expressionValidator.isNumberAndOperator(expression.toString())) {
-                String[] components = expression.toString().trim().split("\\s+");
-                for (String component : components) {
-                    expressions.add(component);
-                }
-            } else {
-                if (expression.toString().length() > 0) {
-                    expressions.add(expression.toString());
-                }
-            }
+            fixExpression(expressions, expression);
         }
         return expressions;
+    }
+
+    private void fixExpression(List<String> expressions, StringBuilder expression) {
+        if (mathRegex.isNumberAndOperator(expression.toString())) {
+            splitNumberAndOperator(expressions, expression);
+        } else {
+            addNonEmptyExpression(expressions, expression);
+        }
+    }
+
+    private void addNonEmptyExpression(List<String> expressions, StringBuilder expression) {
+        if (expression.toString().trim().length() > 0) {
+            expressions.add(expression.toString().trim());
+        }
+    }
+
+    private void splitNumberAndOperator(List<String> expressions, StringBuilder expression) {
+        String[] components = expression.toString().trim().split("\\s+");
+        for (String component : components) {
+            expressions.add(component);
+        }
     }
 }

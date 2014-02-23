@@ -1,7 +1,7 @@
 package es.aguasnegras.tdd;
 
 import es.aguasnegras.tdd.calculator.lexer.ExpressionFixer;
-import es.aguasnegras.tdd.calculator.lexer.ExpressionValidator;
+import es.aguasnegras.tdd.calculator.lexer.MathRegex;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ public class ExpressionFixerTests {
 
     @Test
     public void splitExpressionWithOperatorAtTheEnd() {
-        ExpressionFixer expressionFixer = new ExpressionFixer(new ExpressionValidator());
+        ExpressionFixer expressionFixer = new ExpressionFixer(new MathRegex());
         List<StringBuilder> expressions = new ArrayList<>();
         expressions.add(new StringBuilder("2 +"));
         List<String> fixedExpressions = expressionFixer.fixExpressions(expressions);

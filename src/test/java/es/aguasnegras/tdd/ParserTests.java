@@ -25,8 +25,8 @@ public class ParserTests {
 
     @Before
     public void setUp() {
-        ExpressionValidator expressionValidator = new ExpressionValidator();
-        mathLexer = new MathLexer(expressionValidator, new ExpressionFixer(expressionValidator));
+        MathRegex mathRegex = new MathRegex();
+        mathLexer = new MathLexer(mathRegex, new ExpressionFixer(mathRegex));
         mathParser = new MathParser(mathLexer, new SimpleCalculatorProxy(new CalculatorValidator(Integer.MIN_VALUE, Integer.MAX_VALUE),
                 new Calculator()));
     }
