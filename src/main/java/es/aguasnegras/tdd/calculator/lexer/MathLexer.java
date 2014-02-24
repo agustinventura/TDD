@@ -13,6 +13,9 @@ public class MathLexer implements Lexer {
 
     private static final char OPEN_SUBEXPRESSION = '(';
     private static final char CLOSE_SUBEXPRESSION = ')';
+    //This is a workaround to make possible the modification inside getSubexpressions
+    int openedParenthesis = 0;
+    int startSearchingAt = 0;
 
     public MathLexer(MathRegex mathRegex, ExpressionFixer expressionFixer) {
         this.mathRegex = mathRegex;
@@ -40,29 +43,34 @@ public class MathLexer implements Lexer {
 
     private List<StringBuilder> getDisclosedExpressions(String expression) {
         List<StringBuilder> expressionsBuilder = new ArrayList<>();
-        StringBuilder currentExpression = new StringBuilder("");
-        expressionsBuilder.add(currentExpression);
-        int i = 0;
-        boolean endOfExpression = false;
-        while (i < expression.length() && !endOfExpression) {
-            char ch = expression.charAt(i);
-            if (ch == OPEN_SUBEXPRESSION) {
-                int subExpressionBegin = i + 1;
-                int subExpressionEnd = expression.lastIndexOf(CLOSE_SUBEXPRESSION);
-                String subExpression = expression.substring(subExpressionBegin, subExpressionEnd);
-                expressionsBuilder.addAll(getDisclosedExpressions(subExpression));
-                i = expression.indexOf(CLOSE_SUBEXPRESSION, i) + 1;
-                if (i == 0) {
-                    throw new IllegalArgumentException("Expression " + expression + "has unclosed parenthesis");
-                }
-            } else if (ch == CLOSE_SUBEXPRESSION) {
-                endOfExpression = true;
-            } else {
-                currentExpression.append(ch);
-                i++;
-            }
+        getSubExpressions(expression, new StringBuilder(""),
+                expressionsBuilder);
+        if (openedParenthesis != 0) {
+            throw new IllegalArgumentException("Expression " + expression + " has unclosed parenthesis");
         }
         return expressionsBuilder;
+    }
+
+    private void getSubExpressions(String expression,
+                                   StringBuilder subExpressionUnderConstruction,
+                                   List<StringBuilder> expressionsBuilder) {
+        int subExpressionStartIndex = startSearchingAt;
+        for (int currentIndex = subExpressionStartIndex; currentIndex < expression.length(); currentIndex++) {
+            char currentChar = expression.charAt(currentIndex);
+            if (currentChar == OPEN_SUBEXPRESSION) {
+                openedParenthesis++;
+                subExpressionStartIndex = currentIndex + 1;
+                getSubExpressions(expression, new StringBuilder(""),
+                        expressionsBuilder);
+                currentIndex = subExpressionStartIndex;
+            } else if (currentChar == CLOSE_SUBEXPRESSION) {
+                expressionsBuilder.add(subExpressionUnderConstruction);
+                subExpressionStartIndex = currentIndex;
+                openedParenthesis--;
+            } else {
+                subExpressionUnderConstruction.append(currentChar);
+            }
+        }
     }
 
     private List<MathToken> getTokensFromStrings(String[] items) {
