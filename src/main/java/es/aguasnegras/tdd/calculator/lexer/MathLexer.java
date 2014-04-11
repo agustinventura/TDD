@@ -2,6 +2,7 @@ package es.aguasnegras.tdd.calculator.lexer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 /**
  * Created by case on 8/02/14.
@@ -13,9 +14,6 @@ public class MathLexer implements Lexer {
 
     private static final char OPEN_SUBEXPRESSION = '(';
     private static final char CLOSE_SUBEXPRESSION = ')';
-    //This is a workaround to make possible the modification inside getSubexpressions
-    int openedParenthesis = 0;
-    int startSearchingAt = 0;
 
     public MathLexer(MathRegex mathRegex, ExpressionFixer expressionFixer) {
         this.mathRegex = mathRegex;
@@ -42,36 +40,27 @@ public class MathLexer implements Lexer {
     }
 
     private List<StringBuilder> getDisclosedExpressions(String expression) {
-        List<StringBuilder> expressionsBuilder = new ArrayList<>();
-        getSubExpressions(expression, new StringBuilder(""),
-                expressionsBuilder);
-        if (openedParenthesis != 0) {
-            throw new IllegalArgumentException("Expression " + expression + " has unclosed parenthesis");
-        }
-        return expressionsBuilder;
-    }
-
-    private void getSubExpressions(String expression,
-                                   StringBuilder subExpressionUnderConstruction,
-                                   List<StringBuilder> expressionsBuilder) {
-        int subExpressionStartIndex = startSearchingAt;
-        for (int currentIndex = subExpressionStartIndex; currentIndex < expression.length(); currentIndex++) {
-            char currentChar = expression.charAt(currentIndex);
-            if (currentChar == OPEN_SUBEXPRESSION) {
-                openedParenthesis++;
-                subExpressionStartIndex = currentIndex + 1;
-                getSubExpressions(expression, new StringBuilder(""),
-                        expressionsBuilder);
-                currentIndex = subExpressionStartIndex;
-            } else if (currentChar == CLOSE_SUBEXPRESSION) {
-                expressionsBuilder.add(subExpressionUnderConstruction);
-                subExpressionStartIndex = currentIndex;
-                openedParenthesis--;
+        List<StringBuilder> expressions = new ArrayList<StringBuilder>();
+        Stack<Integer> parenthesis = new Stack<Integer>();
+        int index = 1;
+        expressions.add(new StringBuilder(""));
+        for (char character : expression.toCharArray()) {
+            if (character == OPEN_SUBEXPRESSION) {
+                parenthesis.push(index);
+                index++;
+                expressions.add(index - 1, new StringBuilder(""));
+            } else if (character == CLOSE_SUBEXPRESSION) {
+                index = parenthesis.pop();
             } else {
-                subExpressionUnderConstruction.append(currentChar);
+                expressions.get(index - 1).append(character);
             }
         }
+        if (parenthesis.size() > 0) {
+            throw new IllegalArgumentException("There is unmatched parenthesis");
+        }
+        return expressions;
     }
+
 
     private List<MathToken> getTokensFromStrings(String[] items) {
         List<MathToken> tokens = new ArrayList<>();
