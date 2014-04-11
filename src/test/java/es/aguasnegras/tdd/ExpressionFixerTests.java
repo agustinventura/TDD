@@ -2,6 +2,7 @@ package es.aguasnegras.tdd;
 
 import es.aguasnegras.tdd.calculator.lexer.ExpressionFixer;
 import es.aguasnegras.tdd.calculator.lexer.MathRegex;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -15,14 +16,28 @@ import static org.junit.Assert.assertTrue;
  */
 public class ExpressionFixerTests {
 
+    ExpressionFixer expressionFixer;
+    List<StringBuilder> expressions;
+
+    @Before
+    public void setUp() {
+        expressionFixer = new ExpressionFixer(new MathRegex());
+        expressions = new ArrayList<>();
+    }
+
     @Test
     public void splitExpressionWithOperatorAtTheEnd() {
-        ExpressionFixer expressionFixer = new ExpressionFixer(new MathRegex());
-        List<StringBuilder> expressions = new ArrayList<>();
         expressions.add(new StringBuilder("2 +"));
         List<String> fixedExpressions = expressionFixer.fixExpressions(expressions);
         assertEquals(2, fixedExpressions.size());
         assertTrue(fixedExpressions.contains("2"));
         assertTrue(fixedExpressions.contains("+"));
+    }
+
+    @Test
+    public void trim() {
+        expressions.add(new StringBuilder(" * "));
+        List<String> fixedExpressions = expressionFixer.fixExpressions(expressions);
+        assertEquals("*", fixedExpressions.get(0));
     }
 }
