@@ -20,11 +20,34 @@ public class MathParser {
     }
 
     public int processExpression(String expression) {
-        List<MathToken> tokens = mathLexer.getTokens(expression);
+        List<MathExpression> subExpressions = mathLexer.getExpressions(expression);
+        StringBuilder flatExpression = new StringBuilder();
+        for (MathExpression subExpression : subExpressions) {
+            if (isSubExpression(subExpression.getExpression())) {
+                flatExpression.append(resolveSimpleExpression(subExpression.getExpression()));
+            } else {
+                flatExpression.append(" " + subExpression.getExpression() + " ");
+            }
+        }
+        return resolveSimpleExpression(flatExpression.toString());
+    }
+
+    private int resolveSimpleExpression(String flatExpression) {
+        List<MathToken> tokens = mathLexer.getTokens(flatExpression);
         while (tokens.size() > 1) {
             processTokens(tokens);
         }
         return Integer.parseInt(tokens.get(0).getValue());
+    }
+
+    private boolean isSubExpression(String subExpression) {
+        boolean isSubExpression = false;
+        String isOperator = "[\\+|\\-|\\*|/]";
+        String isNumber = "\\d+";
+        if (subExpression.matches(isOperator) || subExpression.matches(isNumber)) {
+            isSubExpression = true;
+        }
+        return isSubExpression;
     }
 
     private void processTokens(List<MathToken> tokens) {

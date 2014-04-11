@@ -42,4 +42,8 @@ public class ExpressionFixer {
             expressions.add(component);
         }
     }
+
+    public void fix(List<MathExpression> expressions) {
+
+    }
 }

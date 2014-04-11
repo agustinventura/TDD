@@ -8,5 +8,5 @@ import java.util.List;
 public interface Lexer {
     List<MathToken> getTokens(String expression);
 
-    List<String> getExpressions(String s);
+    List<MathExpression> getExpressions(String s);
 }

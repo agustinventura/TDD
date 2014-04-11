@@ -1,6 +1,9 @@
 package es.aguasnegras.tdd.calculator.lexer;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
@@ -14,6 +17,9 @@ public class MathLexer implements Lexer {
 
     private static final char OPEN_SUBEXPRESSION = '(';
     private static final char CLOSE_SUBEXPRESSION = ')';
+
+    private int openedParenthesis = 0;
+    private int startSearchingAt = 0;
 
     public MathLexer(MathRegex mathRegex, ExpressionFixer expressionFixer) {
         this.mathRegex = mathRegex;
@@ -33,10 +39,43 @@ public class MathLexer implements Lexer {
     }
 
     @Override
-    public List<String> getExpressions(String expression) {
-        List<StringBuilder> expressionsBuilder = getDisclosedExpressions(expression);
-        List<String> expressions = expressionFixer.fixExpressions(expressionsBuilder);
-        return expressions;
+    public List<MathExpression> getExpressions(String expression) {
+        List<MathExpression> totalExpressionsFound = new ArrayList<>();
+        getExpressions(expression, new MathExpression(StringUtils.EMPTY), totalExpressionsFound);
+        if (openedParenthesis > 0) {
+            throw new IllegalArgumentException("There is unmatched parenthesis");
+        }
+        Collections.sort(totalExpressionsFound);
+        expressionFixer.fix(totalExpressionsFound);
+        return totalExpressionsFound;
+    }
+
+    private void getExpressions(String expression, MathExpression mathExpression, List<MathExpression> totalExpressionsFound) {
+        boolean endOfExpression = false;
+        int currentIndex = startSearchingAt;
+        while (currentIndex < expression.length() && !endOfExpression) {
+            char currentChar = expression.charAt(currentIndex);
+            if (currentChar == OPEN_SUBEXPRESSION) {
+                openedParenthesis++;
+                startSearchingAt = currentIndex + 1;
+                getExpressions(expression, new MathExpression(StringUtils.EMPTY, startSearchingAt), totalExpressionsFound);
+                currentIndex = startSearchingAt;
+            } else if (currentChar == CLOSE_SUBEXPRESSION) {
+                totalExpressionsFound.add(mathExpression);
+                startSearchingAt = currentIndex;
+                openedParenthesis--;
+                endOfExpression = true;
+            } else {
+                mathExpression.setExpression(mathExpression.getExpression() + currentChar);
+                if (mathExpression.getOrder() == -1) {
+                    mathExpression.setOrder(startSearchingAt);
+                }
+            }
+            currentIndex++;
+        }
+        if (!endOfExpression) {
+            totalExpressionsFound.add(mathExpression);
+        }
     }
 
     private List<StringBuilder> getDisclosedExpressions(String expression) {

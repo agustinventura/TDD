@@ -79,4 +79,9 @@ public class ParserTests {
     public void processAllOperatorsExpression() {
         assertEquals(9, mathParser.processExpression("5 + 4 * 2 / 2"));
     }
+
+    @Test
+    public void processAcceptanceExpressionWithParenthesis() {
+        assertEquals(4, mathParser.processExpression("(2 + 2) * (3 + 1)"));
+    }
 }
